@@ -1,0 +1,34 @@
+import java.util.Arrays;
+
+public class SwiftLogistics {
+    public static int minContainers(int[] shipments, int[] containerLimits) {
+        Arrays.sort(shipments);
+        Arrays.sort(containerLimits);
+        
+        int shipmentIndex = shipments.length - 1;
+        int containerIndex = containerLimits.length - 1;
+        int containerCount = 0;
+        
+        while (shipmentIndex >= 0) {
+            if (containerIndex < 0) {
+                return -1;  // Not enough containers
+            }
+            
+            if (shipments[shipmentIndex] <= containerLimits[containerIndex]) {
+                containerLimits[containerIndex] -= shipments[shipmentIndex];
+                shipmentIndex--;
+            } else {
+                containerIndex--;
+                containerCount++;
+            }
+        }
+        
+        return containerCount + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] shipments = {10, 20, 30};
+        int[] containerLimits = {15, 15, 20, 10};
+        System.out.println("Minimum number of containers needed: " + minContainers(shipments, containerLimits));
+    }
+}
